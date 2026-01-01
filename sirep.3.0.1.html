@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>SIREP‑SUPERIOR v3.1 – النسخة المتقدمة | Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Tahoma,Arial,sans-serif;
+  background:radial-gradient(circle at top,#0f172a,#020617);
+  min-height:100vh;
+  color:#e5e7eb;
+  overflow-x:hidden;
+}
+.container{max-width:1200px;margin:0 auto;padding:1rem}
+
+/* رأس الصفحة */
+.header{
+  background:linear-gradient(135deg,#22c55e,#16a34a,#15803d);
+  border-radius:25px;
+  padding:2rem;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(34,197,94,0.4);
+  margin-bottom:3rem;
+  position:relative;
+  overflow:hidden;
+}
+.header::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;right:-50%;bottom:-50%;
+  background:linear-gradient(45deg,transparent,rgba(255,255,255,0.1),transparent);
+  animation:shine 3s infinite;
+}
+@keyframes shine{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)}}
+.header h1{
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:900;
+  background:linear-gradient(135deg,#fff,#f0f9a8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:1rem;
+  text-shadow:0 0 30px rgba(255,255,255,0.5);
+}
+.version-tag{
+  display:inline-block;
+  background:linear-gradient(45deg,#ef4444,#dc2626);
+  color:white;
+  padding:0.5rem 1.5rem;
+  border-radius:50px;
+  font-weight:700;
+  font-size:1.2rem;
+  box-shadow:0 10px 30px rgba(239,68,68,0.4);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+/* مقارنة الأنظمة العالمية */
+.comparison-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;
+  margin:3rem 0;
+}
+.sys-card{
+  background:linear-gradient(145deg,#1e293b,#334155);
+  border-radius:20px;
+  padding:2rem;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+  border:2px solid transparent;
+  transition:all 0.4s ease;
+  position:relative;
+  overflow:hidden;
+}
+.sys-card::before{
+  content:attr(data-sys);
+  position:absolute;
+  top:1rem;left:1rem;
+  background:rgba(255,255,255,0.1);
+  padding:0.3rem 1rem;
+  border-radius:20px;
+  font-size:0.8rem;
+  font-weight:700;
+}
+.sys-card:hover{
+  transform:translateY(-15px) scale(1.02);
+  border-color:#22c55e;
+  box-shadow:0 30px 80px rgba(34,197,94,0.4);
+}
+.sys-icon{
+  font-size:4rem;
+  margin-bottom:1rem;
+  background:linear-gradient(135deg,#22c55e,#84cc16);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.sys-metrics{
+  display:grid;
+  gap:1rem;
+  text-align:right;
+}
+.metric{
+  display:flex;
+  justify-content:space-between;
+  padding:0.5rem;
+  background:rgba(255,255,255,0.05);
+  border-radius:10px;
+}
+.metric-value{
+  font-weight:700;
+  color:#22c55e;
+}
+
+/* لوحة الأداء المتقدمة */
+.performance-dashboard{
+  background:linear-gradient(135deg,#1e1b4b,#0f172a);
+  border-radius:25px;
+  padding:2.5rem;
+  margin:3rem 0;
+  box-shadow:0 25px 70px rgba(0,0,0,0.5);
+  border:1px solid rgba(34,197,94,0.2);
+}
+.dashboard-header{
+  text-align:center;
+  margin-bottom:2.5rem;
+}
+.dashboard-title{
+  font-size:2.5rem;
+  background:linear-gradient(135deg,#22c55e,#84cc16);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:1rem;
+}
+.live-metrics{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.5rem;
+}
+.metric-card{
+  background:linear-gradient(145deg,#1e293b,#334155);
+  border-radius:20px;
+  padding:1.5rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  border:2px solid transparent;
+  transition:all 0.3s ease;
+}
+.metric-card:hover{
+  border-color:#22c55e;
+  transform:scale(1.05);
+}
+.metric-value-big{
+  font-size:3rem;
+  font-weight:900;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:0.5rem;
+}
+.metric-label{
+  font-size:1.1rem;
+  color:#94a3b8;
+  font-weight:500;
+}
+.gauge-bg{
+  width:120px;height:120px;
+  border-radius:50%;
+  background:conic-gradient(#22c55e 0deg 270deg, #475569 270deg 360deg);
+  margin:1rem auto 0;
+  position:relative;
+}
+.gauge-fill{
+  position:absolute;
+  top:12px;left:12px;right:12px;bottom:12px;
+  background:#1e293b;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  color:#22c55e;
+}
+
+/* ميزات v3.1 الجديدة */
+.v31-features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2rem;
+  margin:3rem 0;
+}
+.feature-card{
+  background:linear-gradient(145deg,#1e293b,#334155);
+  border-radius:20px;
+  padding:2rem;
+  text-align:center;
+  border-left:5px solid #22c55e;
+  transition:all 0.4s ease;
+  cursor:pointer;
+}
+.feature-card:hover{
+  transform:translateX(-10px);
+  box-shadow:0 25px 60px rgba(34,197,94,0.3);
+}
+.feature-icon{
+  font-size:3.5rem;
+  margin-bottom:1rem;
+  background:linear-gradient(135deg,#22c55e,#84cc16);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.feature-title{
+  font-size:1.4rem;
+  font-weight:700;
+  margin-bottom:1rem;
+  color:#f1f5f9;
+}
+
+/* تذييل */
+.footer{
+  background:linear-gradient(135deg,#1e293b,#0f172a);
+  border-radius:25px;
+  padding:2rem;
+  text-align:center;
+  margin-top:3rem;
+  border-top:3px solid #22c55e;
+}
+.dz-pride{
+  font-size:1.5rem;
+  font-weight:900;
+  background:linear-gradient(135deg,#ef4444,#f59e0b,#22c55e);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:1rem;
+}
+.ip-notice{
+  background:rgba(239,68,68,0.2);
+  border:1px solid #ef4444;
+  border-radius:15px;
+  padding:1rem;
+  margin-top:1rem;
+  font-weight:600;
+}
+
+/* الرسوم المتحركة */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.sys-card:nth-child(1){animation:float 6s infinite}
+.sys-card:nth-child(2){animation:float 6s infinite 1s}
+.sys-card:nth-child(3){animation:float 6s infinite 2s}
+
+/* متجاوب */
+@media(max-width:768px){
+  .container{padding:0.5rem}
+  .header{padding:1.5rem}
+  .performance-dashboard{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  
+  <!-- الرأس -->
+  <div class="header">
+    <h1>SIREP‑SUPERIOR</h1>
+    <div class="version-tag">الإصدار v3.1 – المتقدم</div>
+  </div>
+
+  <!-- مقارنة الأنظمة العالمية -->
+  <section class="comparison-grid">
+    <div class="sys-card" data-sys="SIREP v3.1">
+      <div class="sys-icon">🇩🇿</div>
+      <div class="sys-metrics">
+        <div class="metric"><span>Scan Time</span><span class="metric-value">1.8ms</span></div>
+        <div class="metric"><span>Availability</span><span class="metric-value">99.999%</span></div>
+        <div class="metric"><span>I/O Throughput</span><span class="metric-value">12.3M/sec</span></div>
+        <div class="metric"><span>SIL Level</span><span class="metric-value">SIL4+</span></div>
+        <div class="metric"><span>Temp Range</span><span class="metric-value">-45°C ~ +90°C</span></div>
+      </div>
+    </div>
+    
+    <div class="sys-card" data-sys="GE Mark VIeS">
+      <div class="sys-icon">⚡</div>
+      <div class="sys-metrics">
+        <div class="metric"><span>Scan Time</span><span class="metric-value">5ms</span></div>
+        <div class="metric"><span>Availability</span><span class="metric-value">99.98%</span></div>
+        <div class="metric"><span>I/O Throughput</span><span class="metric-value">500K/sec</span></div>
+        <div class="metric"><span>SIL Level</span><span class="metric-value">SIL3</span></div>
+        <div class="metric"><span>Temp Range</span><span class="metric-value">-20°C ~ +60°C</span></div>
+      </div>
+    </div>
+    
+    <div class="sys-card" data-sys="Siemens SIMATIC">
+      <div class="sys-icon">🔧</div>
+      <div class="sys-metrics">
+        <div class="metric"><span>Scan Time</span><span class="metric-value">4ms</span></div>
+        <div class="metric"><span>Availability</span><span class="metric-value">99.97%</span></div>
+        <div class="metric"><span>I/O Throughput</span><span class="metric-value">800K/sec</span></div>
+        <div class="metric"><span>SIL Level</span><span class="metric-value">SIL3</span></div>
+        <div class="metric"><span>Temp Range</span><span class="metric-value">-25°C ~ +70°C</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- لوحة الأداء الحي -->
+  <section class="performance-dashboard">
+    <div class="dashboard-header">
+      <h2 class="dashboard-title">لوحة الأداء الحي – AI Brain</h2>
+      <p>المراقبة الذكية في الوقت الفعلي | متكامل مع IoT و SCADA</p>
+    </div>
+    
+    <div class="live-metrics">
+      <div class="metric-card">
+        <div class="metric-value-big" id="scanVal">1.8</div>
+        <div class="metric-label">Scan Time (ms)</div>
+        <div class="gauge-bg"><div class="gauge-fill">✓</div></div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-value-big" id="availVal">99.999</div>
+        <div class="metric-label">Availability (%)</div>
+        <div class="gauge-bg"><div class="gauge-fill">✓</div></div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-value-big" id="ioVal">12.3</div>
+        <div class="metric-label">I/O (M/sec)</div>
+        <div class="gauge-bg"><div class="gauge-fill">✓</div></div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-value-big" id="tempVal">47</div>
+        <div class="metric-label">Temp (°C)</div>
+        <div class="gauge-bg"><div class="gauge-fill">✓</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ميزات v3.1 الجديدة -->
+  <section class="v31-features">
+    <div class="feature-card">
+      <div class="feature-icon">🧠</div>
+      <h3 class="feature-title">AI Brain مدمج</h3>
+      <p>التنبؤ بالأعطال • التعلم الذاتي • تحسين الأداء</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">🌡️</div>
+      <h3 class="feature-title">صمم للصحراء</h3>
+      <p>-45°C إلى +90°C • مقاوم للغبار • صفر فقد</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3 class="feature-title">IoT + OPC UA</h3>
+      <p>تكامل كامل مع الأجهزة • بروتوكولات صناعية</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3 class="feature-title">أمان SIL4+</h3>
+      <p>حماية فائقة • تشفير كمي • DZ-CERT متوافق</p>
+    </div>
+  </section>
+
+  <!-- التذييل -->
+  <footer class="footer">
+    <div class="dz-pride">ملكية فكرية جزائرية 100% 🇩🇿</div>
+    <p>بلقاسم محروق الراس – 2025 | محمي قانون 03-05 الجزائري</p>
+    <div class="ip-notice">
+      جميع الحقوق محفوظة • للاستخدام التعليمي/العرضي فقط
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// تحريك المؤشرات الحية
+function updateMetrics(){
+  const scan = (1.8 + Math.random()*0.4).toFixed(1);
+  const avail = (99.999 - Math.random()*0.001).toFixed(3);
+  const io = (12.3 + Math.random()*0.8).toFixed(1);
+  const temp = (45 + Math.random()*5).toFixed(0);
+  
+  document.getElementById('scanVal').textContent = scan;
+  document.getElementById('availVal').textContent = avail;
+  document.getElementById('ioVal').textContent = io;
+  document.getElementById('tempVal').textContent = temp;
+}
+
+// تشغيل كل 2 ثانية
+setInterval(updateMetrics, 2000);
+updateMetrics(); // التشغيل الأولي
+
+// تأثيرات تفاعلية
+document.querySelectorAll('.feature-card').forEach((card,i)=>{
+  card.addEventListener('click',()=>{
+    card.style.transform = 'scale(0.98)';
+    setTimeout(()=>card.style.transform='',200);
+  });
+});
+</script>
+
+</body>
+</html>
