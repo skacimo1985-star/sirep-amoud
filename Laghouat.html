@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦅 هدهد SIREP - تنمية صحراوية</title>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {font-family:Tajawal,Segoe UI, sans-serif;background:linear-gradient(135deg,#0f0f23,#1a1a2e,#16213e,#0f3460);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px;font-size:16px;line-height:1.6;}
+.header {font-size:clamp(1.8em,5vw,3em);margin:20px 0;background:linear-gradient(45deg,#FFD700,#FF6B35);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.5);}
+.container {max-width:500px;width:100%;background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:25px;padding:30px;margin:20px 0;box-shadow:0 20px 40px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);}
+.section {margin:25px 0;text-align:center;}
+.title {font-size:1.5em;color:#FFD700;margin-bottom:15px;}
+.stats {display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:15px;margin:20px 0;}
+.stat {background:rgba(255,255,255,0.1);padding:15px;border-radius:15px;font-weight:bold;}
+.tasbih {font-size:2.5em;color:#00FF88;margin:20px 0;cursor:pointer;transition:all 0.3s;}
+.tasbih:hover {transform:scale(1.05);text-shadow:0 0 20px #00FF88;}
+.btn {background:linear-gradient(45deg,#FF6B35,#FFD700);color:#000;padding:15px 25px;border:none;border-radius:50px;font-size:1.1em;font-weight:bold;cursor:pointer;margin:10px 5px;transition:all 0.3s;box-shadow:0 5px 15px rgba(255,107,53,0.4);}
+.btn:hover {transform:translateY(-3px);box-shadow:0 10px 25px rgba(255,107,53,0.6);}
+.counter {font-size:2em;color:#00FF00;font-weight:bold;animation:pulse 2s infinite;}
+@keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.footer {margin-top:30px;padding:20px;font-size:0.9em;color:#ccc;border-top:1px solid rgba(255,255,255,0.1);}
+@media (max-width:480px) {.container {padding:20px;margin:10px 0;}}
+</style>
+</head>
+<body>
+<div class="header">🦅 هدهد SIREP</div>
+
+<div class="container">
+  <div class="section">
+    <div class="title">🏜️ تنمية صحراوية</div>
+    <div class="stats">
+      <div class="stat">720kWh<br>الواحة</div>
+      <div class="stat">1200L<br>ماء يومي</div>
+      <div class="stat">56<br>أسرة تكافل</div>
+      <div class="stat">1.75M<br>دج/شهر</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="tasbih" onclick="tasbihPlus()">🌟 سبحان الله <span id="tasbihCount">0</span></div>
+    <button class="btn" onclick="resetTasbih()">🔄 إعادة</button>
+    <div id="tasbihStatus"></div>
+  </div>
+
+  <div class="section">
+    <div class="title">💰 الربح الحي</div>
+    <div class="counter" id="profitCounter">1.52M دج</div>
+  </div>
+
+  <div class="section">
+    <div class="title">📱 خدمات فورية</div>
+    <button class="btn" onclick="service('umra')">🕌 عمرة تكافل 65K</button>
+    <button class="btn" onclick="service('takafol')">👶 تكافل أسر 20K</button>
+    <button class="btn" onclick="service('oasis')">🏜️ الواحة Live</button>
+  </div>
+</div>
+
+<div class="footer">
+  PWA - يعمل بدون إنترنت | بسم الله الرحمن الرحيم
+</div>
+
+<script>
+let tasbih=localStorage.tasbih||0;
+document.getElementById('tasbihCount').textContent=tasbih;
+
+function tasbihPlus(){
+  tasbih++;localStorage.tasbih=tasbih;
+  document.getElementById('tasbihCount').textContent=tasbih;
+  document.getElementById('tasbihStatus').textContent=tasbih>=100?'✅ تكملة 100× بركة رزق':'جاري التسبيح...';
+  if(tasbih>=100) tasbih=0;
+}
+
+function resetTasbih(){
+  tasbih=0;localStorage.tasbih=0;
+  document.getElementById('tasbihCount').textContent=0;
+  document.getElementById('tasbihStatus').textContent='';
+}
+
+function service(type){
+  const msg={
+    umra:'🕌 حجز عمرة تكافل 65K ✅
+💳 بريدي موب 20K أولاً',
+    takafol:'👶 تكافل 56 أسرة يتامى
+💰 دعم شهري 20K دج',
+    oasis:'🏜️ الواحة الذكية Live
+⚡ 720kWh + 1200L ماء يومي'
+  }[type];
+  alert(msg);
+}
+
+setInterval(()=>{
+  const profit=1.52+Math.sin(Date.now()/3000)*0.15;
+  document.getElementById('profitCounter').textContent=profit.toFixed(2)+'M دج';
+},1000);
+
+// PWA Service Worker
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>a 
